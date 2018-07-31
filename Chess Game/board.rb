@@ -23,15 +23,17 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-    if @board[start_pos].class == NullPiece
+    if start_pos.all?{|el| el.between?(0, 7)} || end_pos.all?{|el| el.between?(0,7)}
+      raise "That is not a position on the board!"
+    elsif self[end_pos].class == Piece
+      raise "Uhhhh... there's a piece there already..."
+    elsif self[start_pos].class == NullPiece
       raise "There is no piece there, you fool!"
-    elsif @board[end_pos].nil? || @board[start_pos].nil?
       # if the piece at the end position is the same color as your piece,
       # this is not a valid move :(
-      raise "That is not a position on the board!"
     else
-      @board[end_pos] = @board[start_pos]
-      @board[start_pos] = NullPiece.new
+      self[end_pos] = self[start_pos]
+      self[start_pos] = NullPiece.new
     end
   end
 
